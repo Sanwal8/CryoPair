@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite this software by project name while individual credits are being finalized."
+message: "If you use CryoPair, please cite this software."
 title: "CryoPair: patient-paired transfer of FFPE-trained predictors to frozen sections"
 type: software
 authors:

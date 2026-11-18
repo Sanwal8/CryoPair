@@ -122,7 +122,7 @@ The CryoPair source code is released under the [MIT License](LICENSE). The licen
 
 ## Citation
 
-Please cite CryoPair by project name while individual software credits and the manuscript author list are being finalized. The current software citation is in [CITATION.cff](CITATION.cff).
+A citation will be added when the manuscript is available.
 
 ## Contact
 
