@@ -3,7 +3,10 @@ message: "If you use CryoPair, please cite this software."
 title: "CryoPair: patient-paired transfer of FFPE-trained predictors to frozen sections"
 type: software
 authors:
-  - name: "CryoPair contributors"
+  - family-names: "Zafar"
+    given-names: "Sanwal Ahmad"
+  - family-names: "Won"
+    given-names: "KJ"
 version: "0.2.0"
 license: MIT
 repository-code: "https://github.com/Sanwal8/CryoPair"

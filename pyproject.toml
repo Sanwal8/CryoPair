@@ -8,6 +8,10 @@ version = "0.2.0"
 description = "Patient-paired adaptation and feature mapping for RNA prediction from frozen histology"
 readme = "README.md"
 license = {file = "LICENSE"}
+authors = [
+    {name = "Sanwal Ahmad Zafar"},
+    {name = "KJ Won"},
+]
 requires-python = ">=3.11"
 dependencies = ["numpy"]
 
