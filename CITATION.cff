@@ -1,12 +1,9 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "Please cite this software by project name while individual credits are being finalized."
 title: "CryoPair: patient-paired transfer of FFPE-trained predictors to frozen sections"
 type: software
 authors:
-  - family-names: "Zafar"
-    given-names: "Sanwal Ahmad"
-    affiliation: "Cedars-Sinai Medical Center"
-    email: "sanwal.ahmadzafar@csmc.edu"
+  - name: "CryoPair contributors"
 version: "0.2.0"
 license: MIT
 repository-code: "https://github.com/Sanwal8/CryoPair"
