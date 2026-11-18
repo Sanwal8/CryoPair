@@ -31,7 +31,15 @@ python -m pip install .
 python -m unittest discover -s tests -v
 ```
 
-The tests use synthetic data. They check that the fitting command is installed and works and, when PyTorch is installed, which adapter files the prediction command accepts. They do not need a GPU or any weights, and they say nothing about prediction accuracy.
+The tests use synthetic data and need no GPU or weights. Three tests check that the fitting command is installed and works. Four more check which adapter files the prediction command accepts; they need PyTorch and pandas and are reported as skipped when these are not installed. The tests say nothing about prediction accuracy.
+
+## Try it without slides or weights
+
+```sh
+python examples/synthetic_fit.py
+```
+
+This fits a reader and a PAIRMAP on made-up patient features and applies both to held-out made-up patients, on a CPU in a few seconds. It prints the error of the FFPE reader on frozen features with and without the map. The data are constructed so that the map helps; the numbers show how the files fit together and are not a result of the study.
 
 For slide prediction and training, install PyTorch for your CUDA version first, and for slide prediction also the native OpenSlide library for your platform, then:
 

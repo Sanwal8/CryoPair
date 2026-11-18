@@ -7,11 +7,13 @@ from pathlib import Path
 import numpy as np
 
 try:
+    import pandas  # cryopair_train needs it
     import torch
-    import cryopair_predict as predict
-    import cryopair_train as train
 except ImportError:
     torch = None
+else:
+    import cryopair_predict as predict
+    import cryopair_train as train
 
 
 @unittest.skipIf(torch is None, "PyTorch and pandas are needed for the adapter tests")
