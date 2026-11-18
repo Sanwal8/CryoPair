@@ -43,16 +43,6 @@ Reading the saved tile coordinates again tests the encoder, the pooling and the 
 - Any computer other than the test workstation.
 - Calibration of absolute expression for an individual patient.
 
-
 ## Standalone feature extraction
 
-The new `cryopair-encode` command calls the predictor's original CRISP model loader, slide planner, tile reader and encoder. Synthetic tests check patient identity, repeated slides, tile-weighted pooling and rounding at storage precision. Tests C2 and D exercised those underlying functions through prediction. The new command has not been independently replayed on a study slide or on FFPE tissue.
-
-To check the new entry point on the lab workstation, list the same slides in the same order as a previously verified default-sampling `cryopair-predict` run. Run `cryopair-encode` with the same weights, environment and device. For a one-patient manifest, compare the original CRISP vector:
-
-```python
-import numpy as np
-
-with np.load("encoded.npz") as encoded, np.load("patient_features.npz") as saved:
-    np.testing.assert_array_equal(encoded["features"][0], saved["crisp"])
-```
+On one EAGLE frozen slide, `cryopair-encode` v0.2.1 reproduced all 2,560 pooled CRISP features of `cryopair-predict` exactly under default tile sampling. The post-release check on 18 November 2026 used the 256 tiles selected by default sampling for the original Test C slide on the study RTX 4090. The maximum and mean absolute feature differences were both zero. FFPE slides, multi-patient runs of `cryopair-encode`, and other hardware remain untested.

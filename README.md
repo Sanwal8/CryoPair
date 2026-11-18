@@ -67,7 +67,7 @@ The usual starting point is a cohort of your own with FFPE slides and measured e
 cryopair-encode --manifest ffpe.csv --virchow2 /path/to/Virchow2 --crisp /path/to/CRISP.pth --out ffpe.npz
 ```
 
-Each output row averages all retained tiles of one patient. The extractor uses the predictor's default sampling from the slide checksum. The new command has synthetic coverage. Direct comparison on a study slide is pending ([validation](docs/validation.md)).
+Each output row averages all retained tiles of one patient. The extractor uses the predictor's default sampling from the slide checksum. On one EAGLE frozen slide, `cryopair-encode` v0.2.1 reproduced all 2,560 pooled CRISP features of `cryopair-predict` exactly under default tile sampling. See the [validation notes](docs/validation.md).
 
 ```sh
 cryopair-fit reader --features ffpe.npz --targets rna.npz --space CRISP --units "log2(TPM + 1)" --out reader.npz
