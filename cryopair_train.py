@@ -13,7 +13,7 @@ import pandas as pd
 import torch
 from torch import nn
 
-VERSION = "0.1.1"
+VERSION = "0.2.1"
 IMAGENET = ((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
 DIM = 2560
 LORA_RANK, LORA_ALPHA = 8, 16

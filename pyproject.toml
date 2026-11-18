@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryopair"
-version = "0.2.0"
+version = "0.2.1"
 description = "Patient-paired adaptation and feature mapping for RNA prediction from frozen histology"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -23,9 +23,10 @@ train = ["torch>=2.5", "timm==1.0.19", "safetensors", "pandas"]
 Repository = "https://github.com/Sanwal8/CryoPair"
 
 [project.scripts]
-cryopair-predict = "cryopair_predict:main"
+cryopair-encode = "cryopair_encode:main"
+cryopair-predict = "cryopair_cli:predict"
 cryopair-fit = "cryopair_fit:main"
-cryopair-train = "cryopair_train:main"
+cryopair-train = "cryopair_cli:train"
 
 [tool.setuptools]
-py-modules = ["cryopair_predict", "cryopair_fit", "cryopair_train"]
+py-modules = ["cryopair_cli", "cryopair_encode", "cryopair_predict", "cryopair_fit", "cryopair_train"]

@@ -1,13 +1,18 @@
 # CryoPair
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24301247.svg)](https://doi.org/10.5281/zenodo.24301247)
+
 CryoPair transfers predictors trained on formalin-fixed, paraffin-embedded (FFPE) histology to frozen sections. It uses frozen and FFPE slides of the same patients to adapt an image encoder (CryoPair) or to fit a linear map between the two kinds of features (PAIRMAP), so that an RNA predictor fitted on FFPE slides can be applied to frozen sections without refitting.
 
 This repository holds the software described in the manuscript "Patient-paired transfer of predictors based on pathology foundation models to frozen sections". It is research software and is not intended for diagnostic or clinical use.
+
+![Patient-paired encoder adaptation and linear feature mapping both reuse the FFPE-trained RNA reader.](docs/overview.svg)
 
 ## What this release contains
 
 | Command | What it does |
 | --- | --- |
+| `cryopair-encode` | Extracts original CRISP patient features from frozen or FFPE slides for fitting |
 | `cryopair-predict` | Predicts RNA expression for one patient from frozen H&E slides with CRISP, CryoPair-CRISP or CRISP with PAIRMAP |
 | `cryopair-fit` | Fits an RNA reader or a PAIRMAP from patient-level features |
 | `cryopair-train` | Trains CryoPair adapters for CRISP from paired frozen and FFPE tiles |
@@ -31,7 +36,13 @@ python -m pip install .
 python -m unittest discover -s tests -v
 ```
 
-The tests use synthetic data and need no GPU or weights. Three tests check that the fitting command is installed and works. Four more check which adapter files the prediction command accepts; they need PyTorch and pandas and are reported as skipped when these are not installed. The tests say nothing about prediction accuracy.
+The tests use synthetic data and need no GPU or weights. Two tests check feature pooling and slide manifests. Three tests check that the fitting command is installed and works. Four more check which adapter files the prediction command accepts; they need PyTorch and pandas and are reported as skipped when these are not installed. The tests say nothing about prediction accuracy.
+
+For slide prediction and training, install PyTorch for your CUDA version first, and for slide prediction also the native OpenSlide library for your platform, then:
+
+```sh
+python -m pip install ".[slides,train]"
+```
 
 ## Try it without slides or weights
 
@@ -40,12 +51,6 @@ python examples/synthetic_fit.py
 ```
 
 This fits a reader and a PAIRMAP on made-up patient features and applies both to held-out made-up patients, on a CPU in a few seconds. It prints the error of the FFPE reader on frozen features with and without the map. The data are constructed so that the map helps; the numbers show how the files fit together and are not a result of the study.
-
-For slide prediction and training, install PyTorch for your CUDA version first, and for slide prediction also the native OpenSlide library for your platform, then:
-
-```sh
-python -m pip install ".[slides,train]"
-```
 
 ## Get the encoders
 
@@ -56,7 +61,13 @@ Both checkpoints are needed for slide prediction and for training. Each has to b
 
 ## Fit a reader and a PAIRMAP
 
-The usual starting point is a cohort of your own with FFPE slides and measured expression. Encode the FFPE slides with the original encoder, average the tile features per patient, and fit a reader:
+The usual starting point is a cohort of your own with FFPE slides and measured expression. List one slide per row in a CSV with the header `patient,slide`. Paths can be absolute or relative to the CSV. Repeat the patient ID for additional slides. Use a separate manifest for each tissue preparation. Extract original CRISP features, then fit the FFPE reader:
+
+```sh
+cryopair-encode --manifest ffpe.csv --virchow2 /path/to/Virchow2 --crisp /path/to/CRISP.pth --out ffpe.npz
+```
+
+Each output row averages all retained tiles of one patient. The extractor uses the predictor's default sampling from the slide checksum. The new command has synthetic coverage. Direct comparison on a study slide is pending ([validation](docs/validation.md)).
 
 ```sh
 cryopair-fit reader --features ffpe.npz --targets rna.npz --space CRISP --units "log2(TPM + 1)" --out reader.npz

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-VERSION = "0.1.0"
+VERSION = "0.2.1"
 ALPHAS = (10.0, 100.0, 1000.0, 1e4, 1e5)
 GENE_CHUNK = 2000
 MIN_FIT, MIN_VALIDATION = 30, 10

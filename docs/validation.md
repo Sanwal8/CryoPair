@@ -32,7 +32,7 @@ Reading the saved tile coordinates again tests the encoder, the pooling and the 
 
 ## Released files and tested files
 
-`cryopair_fit.py` and `cryopair_train.py` are byte for byte the files used in tests E, F and F2. `cryopair_predict.py` is byte for byte the file used in test C2. It differs from the file used in test D by one added check: it refuses adapters marked as the shuffled control or as an unfinished run. Files without these marks, including the study adapters, are read as before. The ten-patient test D was not repeated with this file.
+`cryopair_fit.py` and `cryopair_train.py` differ from the files used in tests E, F and F2 only in the reported version string. `cryopair_predict.py` is byte for byte the file used in test C2. It differs from the file used in test D by one added check: it refuses adapters marked as the shuffled control or as an unfinished run. Files without these marks, including the study adapters, are read as before. The ten-patient test D was not repeated with this file.
 
 ## Not covered
 
@@ -42,3 +42,17 @@ Reading the saved tile coordinates again tests the encoder, the pooling and the 
 - A complete training run and the shuffled-pair control on the study data.
 - Any computer other than the test workstation.
 - Calibration of absolute expression for an individual patient.
+
+
+## Standalone feature extraction
+
+The new `cryopair-encode` command calls the predictor's original CRISP model loader, slide planner, tile reader and encoder. Synthetic tests check patient identity, repeated slides, tile-weighted pooling and rounding at storage precision. Tests C2 and D exercised those underlying functions through prediction. The new command has not been independently replayed on a study slide or on FFPE tissue.
+
+To check the new entry point on the lab workstation, list the same slides in the same order as a previously verified default-sampling `cryopair-predict` run. Run `cryopair-encode` with the same weights, environment and device. For a one-patient manifest, compare the original CRISP vector:
+
+```python
+import numpy as np
+
+with np.load("encoded.npz") as encoded, np.load("patient_features.npz") as saved:
+    np.testing.assert_array_equal(encoded["features"][0], saved["crisp"])
+```
